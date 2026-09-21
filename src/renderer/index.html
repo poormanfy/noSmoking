@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:;" />
+  <title>戒烟小助手</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app">
+    <!-- 标题栏（可拖动） -->
+    <header class="titlebar">
+      <div class="brand">
+        <span class="logo">🚭</span>
+        <span class="title">戒烟小助手</span>
+      </div>
+      <div class="win-controls">
+        <button id="pinBtn" class="icon-btn" title="窗口置顶">📌</button>
+        <button id="minBtn" class="icon-btn" title="隐藏到托盘">—</button>
+        <button id="closeBtn" class="icon-btn" title="退出">✕</button>
+      </div>
+    </header>
+
+    <!-- 视图切换 -->
+    <nav class="tabs">
+      <button class="tab active" data-view="dashboard">看板</button>
+      <button class="tab" data-view="cravings">打卡</button>
+      <button class="tab" data-view="badges">徽章</button>
+      <button class="tab" data-view="settings">设置</button>
+    </nav>
+
+    <!-- ===== 看板视图 ===== -->
+    <main id="view-dashboard" class="view active">
+      <section class="hero">
+        <div class="hero-label">已经坚持</div>
+        <div id="quitDuration" class="hero-time">--</div>
+        <div id="quitSince" class="hero-since"></div>
+      </section>
+
+      <section class="cards">
+        <div class="card">
+          <div class="card-num" id="moneySaved">¥0.00</div>
+          <div class="card-label">已省下的钱</div>
+        </div>
+        <div class="card">
+          <div class="card-num" id="cigsAvoided">0</div>
+          <div class="card-label">少抽的烟 (支)</div>
+        </div>
+        <div class="card">
+          <div class="card-num" id="lifeGained">0</div>
+          <div class="card-label">夺回的生命 (小时)</div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="section-title">
+          今日目标
+          <span id="dailyGoalPill" class="pill">0 / 6 波</span>
+        </div>
+        <div class="goal-bar-wrap">
+          <div class="goal-bar"><div id="goalFill" class="goal-fill"></div></div>
+          <div id="goalDots" class="goal-dots"></div>
+        </div>
+        <div id="goalHint" class="goal-hint"></div>
+      </section>
+
+      <section class="section-block">
+        <div class="section-title">健康恢复进度</div>
+        <div id="milestones" class="milestones"></div>
+      </section>
+    </main>
+
+    <!-- ===== 打卡视图 ===== -->
+    <main id="view-cravings" class="view">
+      <section class="crave-hero">
+        <div class="crave-ring-wrap">
+          <svg viewBox="0 0 120 120" class="crave-ring">
+            <circle cx="60" cy="60" r="52" class="ring-bg"></circle>
+            <circle cx="60" cy="60" r="52" class="ring-fg" id="urgeRing"></circle>
+          </svg>
+          <div class="crave-center">
+            <div id="urgeText" class="urge-text">想抽烟？</div>
+            <div id="urgeSub" class="urge-sub">点一下，做 60 秒深呼吸</div>
+          </div>
+        </div>
+        <button id="urgeBtn" class="urge-btn">我在忍一波烟瘾</button>
+        <div class="urge-tip" id="urgeTip">大多数烟瘾会在 60 秒内消退。喝水、深呼吸、离开当前环境。</div>
+      </section>
+
+      <section class="section-block">
+        <div class="section-title">
+          本周战胜记录
+          <span id="weekCount" class="pill">0</span>
+        </div>
+        <ul id="cravingList" class="craving-list"></ul>
+      </section>
+    </main>
+
+    <!-- ===== 徽章视图 ===== -->
+    <main id="view-badges" class="view">
+      <section class="section-block">
+        <div class="section-title">
+          成就徽章
+          <span id="badgeCount" class="pill">0 / 0</span>
+        </div>
+        <div id="badgeGrid" class="badge-grid"></div>
+      </section>
+    </main>
+
+    <!-- ===== 设置视图 ===== -->
+    <main id="view-settings" class="view">
+      <div class="form">
+        <div class="field">
+          <label>戒烟开始时间</label>
+          <input type="datetime-local" id="quitDateInput" />
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>每天吸烟（支）</label>
+            <input type="number" id="perDayInput" min="0" step="1" />
+          </div>
+          <div class="field">
+            <label>每包价格（¥）</label>
+            <input type="number" id="packPriceInput" min="0" step="0.5" />
+          </div>
+          <div class="field">
+            <label>每包支数</label>
+            <input type="number" id="perPackInput" min="1" step="1" />
+          </div>
+        </div>
+        <div class="field">
+          <label>每日烟瘾打卡目标（波）</label>
+          <input type="number" id="dailyGoalInput" min="1" step="1" />
+        </div>
+        <div class="field">
+          <label>每支烟大约缩短寿命（分钟，默认 11）</label>
+          <input type="number" id="lifePerCigInput" min="0" step="1" />
+        </div>
+        <button id="resetBtn" class="btn-danger">重新设定戒烟时间</button>
+      </div>
+      <p class="hint">数据保存在本机，用于计算省钱与少抽数量。</p>
+    </main>
+
+    <footer class="statusbar">
+      <span id="statusText">就绪</span>
+    </footer>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+{
+  "name": "no-smoking-widget",
+  "version": "1.0.0",
+  "description": "桌面戒烟记录小插件 - 计时、省钱、健康里程碑、烟瘾打卡",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "electron .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
+  },
+  "author": "poormanfy",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^31.0.0",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId": "com.example.nosmokingwidget",
+    "productName": "NoSmoking Widget",
+    "win": {
+      "target": "portable"
+    }
+  }
+}

@@ -1,0 +1,20 @@
+# 依赖
+node_modules/
+
+# 构建输出
+dist/
+out/
+*.exe
+*.blockmap
+*.yml
+
+# 日志与缓存
+*.log
+npm-debug.log*
+.cache/
+
+# 编辑器与系统文件
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
